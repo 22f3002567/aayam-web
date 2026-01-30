@@ -693,7 +693,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Calendar, MapPin, Link as LinkIcon, FileText, Upload, Save, Monitor, Image as ImageIcon } from "lucide-react";
 import { upsertEvent } from "@/app/admin/events/actions";
-
+import { toast } from "sonner";
 interface EventSheetProps {
   isOpen: boolean;
   onClose: () => void;
@@ -739,8 +739,11 @@ export default function EventSheet({ isOpen, onClose, initialData }: EventSheetP
     const result = await upsertEvent(formData);
     
     setIsSubmitting(false);
-    if (result.success) onClose();
-    else alert("Error: " + result.error);
+    if (result.success){
+        toast.success( initialData ? "Event Updated!" : "Event Created!" );
+        onClose();
+    }
+    else toast.error("Error: Opertation Failed : " + result.error);
   };
 
   const handleFilePreview = (e: React.ChangeEvent<HTMLInputElement>, setPreview: (url: string) => void) => {

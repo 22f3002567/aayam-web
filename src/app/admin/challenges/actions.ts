@@ -550,9 +550,13 @@ export async function broadcastSignal(formData: FormData) {
   const theme = formData.get("theme") as string;
   const brief = formData.get("brief") as string;
   const deadlineStr = formData.get("deadline") as string;
-
+  const form_type = formData.get("form_type") as string || "general";
+  const external_link = formData.get("external_link") as string || null;
   if (!theme || !brief || !deadlineStr) return { success: false, error: "Missing Frequency Data." };
   
+  if (form_type === 'external' && !external_link) {
+      return { success: false, error: "External Protocol requires a Target URL." };
+  }
   const deadline = new Date(deadlineStr);
   if (deadline < new Date()) return { success: false, error: "Cannot broadcast to the past." };
 
@@ -566,7 +570,7 @@ export async function broadcastSignal(formData: FormData) {
     // Create New
     const slug = await generateUniqueSlug(supabase, theme);
     const { data: newSignal, error } = await supabase.from("challenges").insert({
-      theme, slug, brief, deadline: deadline.toISOString(), status: "active"
+      theme, slug, brief, deadline: deadline.toISOString(), status: "active", form_type, external_link
     }).select().single();
 
     if (error) throw error;
@@ -590,10 +594,11 @@ export async function updateSignal(formData: FormData) {
   const theme = formData.get("theme") as string;
   const brief = formData.get("brief") as string;
   const deadlineStr = formData.get("deadline") as string;
-
+  const external_link = formData.get("external_link") as string || null;
+  const form_type = formData.get("form_type") as string || "general";
   try {
     const { error } = await supabase.from("challenges").update({
-      theme, brief, deadline: new Date(deadlineStr).toISOString()
+      theme, brief, deadline: new Date(deadlineStr).toISOString(), external_link, form_type
     }).eq("id", id);
 
     if (error) throw error;
@@ -622,6 +627,7 @@ export async function killSignal(id: string) {
     });
 
     revalidatePath("/admin/challenges");
+    revalidatePath("/");
     return { success: true };
   } catch (err: any) {
     return { success: false, error: err.message };

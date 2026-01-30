@@ -261,3 +261,25 @@ export interface Submission {
   
   status: SubmissionStatus;
 }
+
+
+export type FormType = 'general' | 'audition' | 'writing' | 'design' | 'external';
+
+export interface Challenge {
+  id: string;
+  theme: string;
+  slug: string;
+  brief: string;
+  deadline: string;
+  status: 'active' | 'archived' | 'closed';
+  form_type: FormType; // <--- NEW FIELD
+  external_link?: string | null; 
+}
+
+export interface Submission {
+  id: string;
+  challenge_id: string;
+  data: any; // Stores the dynamic JSON (Name, Age, Links...)
+  created_at: string;
+  status: 'pending' | 'selected' | 'rejected';
+}
