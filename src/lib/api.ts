@@ -665,12 +665,64 @@ export async function getPlays(
 
 // --- 5. THE CONSTELLATION (Ensemble Page) ---
 // This is the new logic connecting Tenures + Navarasa Colors
+// export async function getEnsemble(year: string = '2025-26', client?: SupabaseClient): Promise<EnsembleMember[]> {
+//   const supabase = client ?? await createClient();
+
+//   try {
+//     // 1. COMPLEX JOIN FETCH
+//     const { data: tenures, error } = await supabase
+//       .from('tenures')
+//       .select(`
+//         role_student,
+//         department,
+//         rank,
+//         sort_order,
+//         year,
+//         member:team_members (
+//           id, name, slug, bio, image_url, voice_note_url, color, social_links
+//         )
+//       `)
+//       .eq('year', year)
+//       .is('deleted_at', null)
+//       // Sort by Hierarchy (1. Secretary, 2. Heads...)
+//       .order('sort_order', { ascending: true });
+
+//     if (error) {
+//       console.warn(`Brain Warning: Could not fetch ensemble for ${year}.`, error);
+//       return [];
+//     }
+
+//     // 2. DATA FLATTENING (The Adapter)
+//     // We map DB columns to the strictly typed EnsembleMember interface
+//     return (tenures || []).map((t: any) => ({
+//       id: t.member.id,
+//       name: t.member.name,
+//       slug: t.member.slug,
+//       role: t.role_student, // DB: role_student -> UI: role
+//       department: t.department,
+//       bio: t.member.bio,
+//       year: t.year,
+//       rank: t.rank,         
+//       sort_order: t.sort_order, 
+//       image_url: t.member.image_url,
+//       audio_url: t.member.voice_note_url, // DB: voice_note_url -> UI: audio_url
+//       color: t.member.color || '#eab308',  // Fallback to Gold
+//       social_links: t.member.social_links
+//     })) as EnsembleMember[];
+
+//   } catch (err) {
+//     console.error("Brain Failure (Ensemble):", err);
+//     return [];
+//   }
+// }
+
+
+// ---5. THE CONSTELLATION (Ensemble Page)---
 export async function getEnsemble(year: string = '2025-26', client?: SupabaseClient): Promise<EnsembleMember[]> {
   const supabase = client ?? await createClient();
 
   try {
-    // 1. COMPLEX JOIN FETCH
-    const { data: tenures, error } = await supabase
+    let query = supabase
       .from('tenures')
       .select(`
         role_student,
@@ -680,45 +732,54 @@ export async function getEnsemble(year: string = '2025-26', client?: SupabaseCli
         year,
         member:team_members (
           id, name, slug, bio, image_url, voice_note_url, color, social_links
-        )
-      `)
-      .eq('year', year)
-      .is('deleted_at', null)
-      // Sort by Hierarchy (1. Secretary, 2. Heads...)
-      .order('sort_order', { ascending: true });
+          )
+        `)
+        .is('deleted_at', null);
+    
+    // Logic: Faculty vs Year Filter
+    if (year === 'faculty') {
+      //Fetch anyone with ZENITH RANK OR 'Faculty' in title, regardless of year
+      // we use .or() to be safe, but rank = "ZENITH" is the God mode indicator
+      query = query.or(`rank.eq.ZENITH,role_student.ilike.%Faculty%`);
 
+    } else {
+      // Regular Year-based Fetch
+      query = query.eq('year', year);
+    }
+
+    const { data: tenures, error } = await query.order('sort_order', { ascending: true });
+    
     if (error) {
       console.warn(`Brain Warning: Could not fetch ensemble for ${year}.`, error);
       return [];
     }
 
-    // 2. DATA FLATTENING (The Adapter)
-    // We map DB columns to the strictly typed EnsembleMember interface
-    return (tenures || []).map((t: any) => ({
-      id: t.member.id,
-      name: t.member.name,
-      slug: t.member.slug,
-      role: t.role_student, // DB: role_student -> UI: role
-      department: t.department,
-      bio: t.member.bio,
-      year: t.year,
-      rank: t.rank,         
-      sort_order: t.sort_order, 
-      image_url: t.member.image_url,
-      audio_url: t.member.voice_note_url, // DB: voice_note_url -> UI: audio_url
-      color: t.member.color || '#eab308',  // Fallback to Gold
-      social_links: t.member.social_links
-    })) as EnsembleMember[];
+    // Mapper (Handle Null Members Safely)
+    return (tenures || [])
+      .filter((t: any) => t.member !== null && t.member !== undefined)
+      .map((t: any) => ({
+        id: t.member.id,
+        name: t.member.name,
+        slug: t.member.slug,
+        role: t.role_student, // DB: role_student -> UI: role
+        rank: t.rank,
+        department: t.department,
+        image_url: t.member.image_url,
+        bio: t.member.bio,
+        year: t.year,
+        social_links: t.member.social_links,
+        audio_url: t.member.voice_note_url, // DB: voice_note_url -> UI: audio_url
+        color: t.member.color || '#eab308',  // Fallback to Gold
+        sort_order: t.sort_order,
+      })) as EnsembleMember[];
 
-  } catch (err) {
+
+
+  } catch (err){
     console.error("Brain Failure (Ensemble):", err);
     return [];
   }
 }
-
-
-// src/lib/api.ts
-// ... (Previous imports)
 
 // --- 6. THE PROTAGONIST (Full Profile Fetch) ---
 export async function getMemberProfile(slug: string, client?: SupabaseClient): Promise<MemberProfile | null> {

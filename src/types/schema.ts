@@ -141,7 +141,8 @@ export interface EnsembleMember {
   year: string;
   role: string;       
   rank: MemberRank;   
-  department: Department;
+  // department: Department;
+  department?: string;
   color?: string;
   
   // Ensure these are present
