@@ -5715,6 +5715,7 @@ import Image from "next/image";
 import { EnsembleMember } from "@/types/schema";
 import Link from "next/link";
 import { label } from "framer-motion/client";
+import { getAcademicYears } from "@/lib/utils";
 
 // --- 1. PURE ICONS & CONSTANTS ---
 const PlayIcon = () => (<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>);
@@ -6001,16 +6002,158 @@ function ThreadNode({ member, index, activeAudioId, setActiveAudioId }: {
     );
 }
 
+// // --- 4. THE TIME CAPSULE (The Active Anchor) ---
+// function TimeCapsule({ currentYear, scrollProgress }: { currentYear: string, scrollProgress: MotionValue<number> }) {
+//     // const years = ['2026', '2025', '2024', 'Faculty'];
+
+//     const years = [
+//         { label: '2026', value: '2025-2026' },
+//         { label: '2025', value: '2024-2025' },
+//         { label: '2024', value: '2023-2024' },
+//         { label: 'Faculty', value: 'Faculty' }
+//     ];
+
+//     // TRIGGER LOGIC: 
+//     // The "Landing" happens in the last 5% of the page scroll.
+//     const arrival = useTransform(scrollProgress, [0.95, 1], [0, 1]);
+    
+//     // 1. The Vertical Beam (Shoots down)
+//     const beamHeight = useTransform(arrival, [0, 1], ["0%", "100%"]);
+    
+//     // 2. The Impact Flash (Explodes on contact)
+//     const impactFlash = useTransform(arrival, [0.8, 1], [0, 1]);
+    
+//     // 3. The Machine Power-Up (Glows after impact)
+//     const machineGlow = useTransform(arrival, [0.9, 1], ["rgba(255,255,255,0.05)", "rgba(234,179,8,0.2)"]);
+//     const borderGlow = useTransform(arrival, [0.9, 1], ["rgba(255,255,255,0.1)", "rgba(234,179,8,0.5)"]);
+
+//     return (
+//         <div className="absolute bottom-0 w-full flex flex-col items-center justify-end pb-12 z-50 pointer-events-none">
+            
+//             {/* A. THE CONNECTOR (The Umbilical Cord) */}
+//             <div className="relative h-24 w-px bg-white/5 mb-[-1px] overflow-visible">
+//                 {/* The Active Beam */}
+//                 <motion.div 
+//                     style={{ height: beamHeight }}
+//                     className="absolute top-0 left-0 w-full bg-gold-500 shadow-[0_0_20px_#eab308]"
+//                 />
+//                 {/* The Spark at the tip */}
+//                 <motion.div 
+//                     style={{ top: beamHeight, opacity: arrival }}
+//                     className="absolute left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_10px_#fff] -translate-y-1/2 z-20"
+//                 />
+//             </div>
+            
+//             {/* B. THE DOCKING PORT (The Receiver) */}
+//             <div className="relative flex flex-col items-center z-20">
+//                 {/* The Physical Ring */}
+//                 <motion.div 
+//                     style={{ 
+//                         borderColor: borderGlow,
+//                         backgroundColor: useTransform(arrival, [0.9, 1], ["#020202", "#eab308"]), // Turns Gold on impact
+//                         scale: useTransform(arrival, [0.9, 1], [1, 1.2]) 
+//                     }}
+//                     className="w-4 h-4 rounded-full border bg-[#020202] z-20 transition-colors"
+//                 >
+//                     {/* The Shockwave Explosion */}
+//                     <motion.div 
+//                         style={{ 
+//                             opacity: useTransform(arrival, [0.9, 1], [0, 1]), 
+//                             scale: useTransform(arrival, [0.9, 1], [0.5, 3]),
+//                             borderWidth: useTransform(arrival, [0.9, 1], ["2px", "0px"]) 
+//                         }}
+//                         className="absolute inset-0 rounded-full border border-white" 
+//                     />
+//                 </motion.div>
+
+//                 {/* The Ambient Energy Cloud */}
+//                 <motion.div 
+//                     style={{ opacity: impactFlash, scale: useTransform(arrival, [0, 1], [0.5, 1.5]) }}
+//                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gold-500/30 blur-[40px] rounded-full z-0" 
+//                 />
+//             </div>
+
+//             {/* C. THE CHRONOMETER (The Timeline UI) */}
+//             <nav className="pointer-events-auto relative mt-[-8px] z-10">
+//                 {/* The Glass Capsule */}
+//                 <motion.div 
+//                     style={{ 
+//                         backgroundColor: machineGlow, // Lights up internally
+//                         borderColor: borderGlow,      // Border energizes
+//                         boxShadow: useTransform(arrival, [0, 1], ["0 0 0px transparent", "0 0 40px rgba(234,179,8,0.15)"])
+//                     }}
+//                     className="backdrop-blur-2xl border px-10 py-5 rounded-full flex items-center gap-12 group transition-all duration-300"
+//                 >
+                    
+//                     {/* Label */}
+//                     <div className="hidden md:flex items-center gap-4 border-r border-white/10 pr-8 mr-2">
+//                         <motion.span 
+//                             animate={{ opacity: [0.5, 1, 0.5] }}
+//                             transition={{ duration: 2, repeat: Infinity }}
+//                             className="w-1.5 h-1.5 bg-gold-500 rounded-full" 
+//                         />
+//                         <span className="text-[9px] uppercase tracking-[0.3em] text-neutral-500 font-bold">
+//                             Temporal<br/>Archive
+//                         </span>
+//                     </div>
+
+//                     {/* Years (here we are changing )*/}
+//                     <div className="flex items-center gap-8">
+//                         {years.map(item  => {
+//                             const isActive = currentYear === item.value;
+//                             return (
+//                                 <Link 
+//                                     key={item.value}
+//                                     href={`/ensemble?year=${item.value}`} // <--- URL TRIGGER
+//                                     scroll={false} // Prevents jarring jump to top
+//                                     className={`relative text-[10px] md:text-xs font-mono tracking-widest transition-all duration-500 ${isActive ? 'text-gold-500 font-bold' : 'text-neutral-600 hover:text-white'}`}
+//                                 >
+//                                     {item.label}
+//                                     {isActive && (
+//                                         <>
+//                                             <motion.span layoutId="activeYearDot" className="absolute -top-3 left-1/2 -translate-x-1/2 w-0.5 h-0.5 bg-gold-500 rounded-full" />
+//                                             <motion.span 
+//                                                 layoutId="activeYearGlow"
+//                                                 className="absolute top-full left-1/2 -translate-x-1/2 w-6 h-6 bg-gold-500/20 blur-[15px] -translate-y-1/2" 
+//                                             />
+//                                         </>
+//                                     )}
+//                                 </Link>
+//                             )
+//                         })}
+//                     </div>
+
+//                 </motion.div>
+
+//                 {/* Tech Wings (Retract when active) */}
+//                 <motion.div style={{ width: useTransform(arrival, [0, 1], [48, 0]), opacity: useTransform(arrival, [0, 1], [1, 0]) }} className="absolute top-1/2 left-0 -translate-x-full -translate-y-1/2 h-px bg-gradient-to-r from-transparent to-white/10" />
+//                 <motion.div style={{ width: useTransform(arrival, [0, 1], [48, 0]), opacity: useTransform(arrival, [0, 1], [1, 0]) }} className="absolute top-1/2 right-0 translate-x-full -translate-y-1/2 h-px bg-gradient-to-l from-transparent to-white/10" />
+//             </nav>
+//         </div>
+//     );
+// }
+
+
 // --- 4. THE TIME CAPSULE (The Active Anchor) ---
 function TimeCapsule({ currentYear, scrollProgress }: { currentYear: string, scrollProgress: MotionValue<number> }) {
     // const years = ['2026', '2025', '2024', 'Faculty'];
 
+    // GENERATE TIMELINE DYNAMICALLY
+    const dynamicYears = getAcademicYears(4).map(y => ({
+        label: y.split('-')[1], // Extracts "2026" from "2025-2026"
+        value: y
+    }));
+
     const years = [
-        { label: '2026', value: '2025-2026' },
-        { label: '2025', value: '2024-2025' },
-        { label: '2024', value: '2023-2024' },
+        ...dynamicYears,
         { label: 'Faculty', value: 'Faculty' }
     ];
+    // const years = [
+    //     { label: '2026', value: '2025-2026' },
+    //     { label: '2025', value: '2024-2025' },
+    //     { label: '2024', value: '2023-2024' },
+    //     { label: 'Faculty', value: 'Faculty' }
+    // ];
 
     // TRIGGER LOGIC: 
     // The "Landing" happens in the last 5% of the page scroll.
@@ -6101,6 +6244,7 @@ function TimeCapsule({ currentYear, scrollProgress }: { currentYear: string, scr
                         {years.map(item  => {
                             const isActive = currentYear === item.value;
                             return (
+                                // Start Change
                                 <Link 
                                     key={item.value}
                                     href={`/ensemble?year=${item.value}`} // <--- URL TRIGGER
