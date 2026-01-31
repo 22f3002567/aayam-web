@@ -2,7 +2,7 @@ import ClientWrapper from "@/components/layout/ClientWrapper";
 import HeroStage from "@/components/home/HeroStage";
 import PrismMenu from "@/components/layout/PrismMenu";
 import { getLatestOriginal } from "@/lib/api";
-
+export const revalidate = 0;
 export default async function Home() {
   const latestPlay = await getLatestOriginal();
 
