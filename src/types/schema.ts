@@ -461,6 +461,10 @@ export interface TeamMember {
   bio: string | null;
   // social_links: Json | null;
   social_links: SocialLinks | null;
+  // GOD TIER ADDITION: Free-form roles that don't fit in "Tenure" or "Play Credit"
+  // e.g. ["Website Developer", "Event Head 2024", "Stage Design"]
+  legacy_titles: string[] | null;
+
 }
 
 export interface EnsembleMember {
@@ -485,6 +489,10 @@ export interface EnsembleMember {
   // Optional Media
   highlight_video_id?: string;
   audio_url?: string | null;
+
+  // GOD TIER ADDITION: Free-form roles that don't fit in "Tenure" or "Play Credit"
+  // e.g. ["Website Developer", "Event Head 2024", "Stage Design"]
+  legacy_titles: string[] | null;
 }
 
 // --- 3. THE ARTIST (Portfolio Grid) ---
@@ -521,6 +529,9 @@ export interface MemberTenure {
 export interface MemberProfile extends EnsembleMember {
   tenures: MemberTenure[];
   credits: MemberCredit[];
+  // GOD TIER ADDITION: Free-form roles that don't fit in "Tenure" or "Play Credit"
+  // e.g. ["Website Developer", "Event Head 2024", "Stage Design"]
+  legacy_titles: string[] | null;
 }
 
 // --- 5. THE ART (Plays) ---
