@@ -456,14 +456,22 @@ export interface TeamMember {
   name: string;
   slug: string;
   image_url: string | null;
-  role_student: string; // From DB join
-  department: string;   // From DB join
+  voice_note_url?: string | null;
+  role_student?: string; // From DB join
+  department?: string;   // From DB join
+  short_bio: string | null;
   bio: string | null;
+  sorting_weight: number;
   // social_links: Json | null;
   social_links: SocialLinks | null;
   // GOD TIER ADDITION: Free-form roles that don't fit in "Tenure" or "Play Credit"
   // e.g. ["Website Developer", "Event Head 2024", "Stage Design"]
   legacy_titles: string[] | null;
+
+  is_hidden: boolean;
+
+  
+
 
 }
 
