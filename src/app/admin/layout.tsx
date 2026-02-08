@@ -1,23 +1,3 @@
-// // "use client";
-
-// // import { usePathname } from "next/navigation";
-// // import NexusLayout from "@/components/admin/NexusLayout";
-
-// // export default function AdminRootLayout({
-// //   children,
-// // }: {
-// //   children: React.ReactNode;
-// // }) {
-// //   const pathname = usePathname();
-// //   const isLoginPage = pathname === "/admin/login";
-
-// //   if (isLoginPage) {
-// //     return <>{children}</>;
-// //   }
-
-// //   return <NexusLayout>{children}</NexusLayout>;
-// // }
-
 // "use client";
 
 // import { usePathname } from "next/navigation";

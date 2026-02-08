@@ -5,7 +5,7 @@ import { PlayCategory } from "@/types/schema";
 
 const MANIFESTOS: Record<string, { title: string; desc: string }> = {
   all: { 
-    title: "Original Works", 
+    title: "Aayam Originals", 
     desc: "The Archive of emotions. A collection of stories engineered to break the silence." 
   },
   stage: { 

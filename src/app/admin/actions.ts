@@ -1,32 +1,3 @@
-// // "use server";
-
-// // import { cookies } from "next/headers";
-// // import { redirect } from "next/navigation";
-
-// // export async function authenticateAdmin(prevState: any, formData: FormData) {
-// //   const inputKey = formData.get("passkey") as string;
-// //   const SECRET = process.env.ADMIN_PASSKEY || "AAYAM_PRIME"; // Fallback if env missing
-
-// //   // 1. THE CHECK (Happens on Server, invisible to user)
-// //   if (inputKey === SECRET) {
-    
-// //     // 2. THE STAMP (Secure, HTTP-Only Cookie)
-// //     // "httpOnly: true" means JavaScript cannot read this cookie (prevents XSS)
-// //     // "secure: true" means it only travels over HTTPS
-// //     (await cookies()).set("nexus_session", "active", {
-// //       httpOnly: true,
-// //       secure: process.env.NODE_ENV === "production",
-// //       maxAge: 60 * 60 * 24, // 1 Day
-// //       path: "/",
-// //       sameSite: "strict",
-// //     });
-
-// //     return { success: true };
-// //   } else {
-// //     return { success: false, error: "Invalid Credentials" };
-// //   }
-// // }
-
 // "use server";
 
 // import { cookies } from "next/headers";

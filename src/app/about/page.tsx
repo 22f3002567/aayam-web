@@ -1,23 +1,3 @@
-// import type { Metadata } from "next";
-// import ClientWrapper from "@/components/layout/ClientWrapper";
-// import PrismMenu from "@/components/layout/PrismMenu";
-// import TheManifesto from "@/components/about/TheManifesto";
-
-// export const metadata: Metadata = {
-//   title: "The Manifesto | About Aayam",
-//   description: "Our philosophy, history, and contact channels.",
-// };
-
-// export default function AboutPage() {
-//   return (
-//     <main className="min-h-screen bg-black">
-//       <ClientWrapper>
-//         <TheManifesto />
-//         <PrismMenu />
-//       </ClientWrapper>
-//     </main>
-//   );
-// }
 
 import type { Metadata } from "next";
 import ClientWrapper from "@/components/layout/ClientWrapper";
