@@ -561,6 +561,9 @@ export interface Play {
   category: PlayCategory;
   featured_score: number;
 
+  //New field --- Memories (The Gallery)
+  gallery_urls?: string[] | null;
+
   // --- FIX: Add the Cast Join Definition ---
   credits?: {
     role_artist: string;

@@ -119,7 +119,11 @@ const nextConfig: any = {
       { 
         protocol: "https", 
         hostname: "lh3.googleusercontent.com" 
-      }
+      },
+      {
+        protocol: "https",
+        hostname: "ik.imagekit.io",
+      },
     ],
   },
 };

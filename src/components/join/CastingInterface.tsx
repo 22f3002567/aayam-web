@@ -549,7 +549,8 @@ const PATHS = [
     statement: "I WANT TO PERFORM.",
     sub: "Join the General Body",
     description: "You crave the lights. You want to feel the stage beneath your feet. Join us to act, design, and bring stories to life.",
-    image: "https://images.unsplash.com/photo-1514525253440-b393452e8d26?q=80&w=1200", // Stage Light
+    // image: "https://images.unsplash.com/photo-1514525253440-b393452e8d26?q=80&w=1200", // Stage Light
+    image: "/membership.png", // Stage Light
     link: "https://forms.google.com/member",
     action: "APPLY FOR MEMBERSHIP"
   },
@@ -559,7 +560,8 @@ const PATHS = [
     statement: "I HAVE A STORY.",
     sub: "Submit an Idea",
     description: "You have a script in your notes app. A scene in your head. Don't let it fade. Give it to us, and we will build it.",
-    image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1200", // Writing
+    // image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1200", // Writing
+    image: "/idea",
     link: "https://forms.google.com/ideas",
     action: "PITCH YOUR IDEA"
   },
@@ -568,9 +570,10 @@ const PATHS = [
     icon: Handshake,
     statement: "I WANT TO PARTNER.",
     sub: "Collaborate / Sponsor",
-    description: "You see the energy of IIT Madras. You want your brand or university to be part of the spectacle. Let's create impact.",
-    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1200", // Handshake
-    link: "mailto:secretary.aayam@iitm.ac.in",
+    description: "You see the energy of Aayam Society. You want your Society or House or brand or university to be part of the spectacle. Let's create impact.",
+    // image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1200", // Handshake
+    image: "/collab",
+    link: "mailto:drama.society@study.iitm.ac.in",
     action: "START A CONVERSATION"
   },
   {
@@ -579,7 +582,8 @@ const PATHS = [
     statement: "I WANT TO LEAD.",
     sub: "Join Core Team",
     description: "You are an organizer. A leader. You want to build the legacy of Aayam from the inside out.",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200", // Team
+    // image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200", // Team
+    image: "/core",
     link: "https://forms.google.com/core",
     action: "VIEW OPEN ROLES"
   }

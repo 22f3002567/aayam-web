@@ -6182,7 +6182,7 @@ function TimeCapsule({ currentYear, scrollProgress }: { currentYear: string, scr
                 {/* The Spark at the tip */}
                 <motion.div 
                     style={{ top: beamHeight, opacity: arrival }}
-                    className="absolute left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_10px_#fff] -translate-y-1/2 z-20"
+                    className="absolute left-1/2 -translate-x-1/2 w-1.5 h-1. bg-white rounded-full shadow-[0_0_10px_#fff] -translate-y-1/2 z-20"
                 />
             </div>
             
@@ -6195,7 +6195,7 @@ function TimeCapsule({ currentYear, scrollProgress }: { currentYear: string, scr
                         backgroundColor: useTransform(arrival, [0.9, 1], ["#020202", "#eab308"]), // Turns Gold on impact
                         scale: useTransform(arrival, [0.9, 1], [1, 1.2]) 
                     }}
-                    className="w-4 h-4 rounded-full border bg-[#020202] z-20 transition-colors"
+                    className="w-3 h-3 rounded-full border bg-[#020202] z-20 transition-colors"
                 >
                     {/* The Shockwave Explosion */}
                     <motion.div 

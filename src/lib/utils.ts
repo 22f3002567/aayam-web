@@ -56,3 +56,23 @@ export function getAcademicYears(count: number = 4) {
   }
   return years;
 }
+
+/**
+ * THE SANITIZER:
+ * 1. Converts Google Drive "View" links to "Direct" links.
+ * 2. Handles null/undefined safely.
+ */
+export function sanitizeImage(url: string | null | undefined): string | undefined {
+  if (!url) return undefined;
+
+  // Fix Google Drive Links
+  if (url.includes("drive.google.com")) {
+    // Extract the ID
+    const idMatch = url.match(/\/d\/(.*?)\//) || url.match(/id=(.*?)(&|$)/);
+    if (idMatch && idMatch[1]) {
+      return `https://drive.google.com/uc?export=view&id=${idMatch[1]}`;
+    }
+  }
+
+  return url;
+}

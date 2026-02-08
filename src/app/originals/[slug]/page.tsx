@@ -7,6 +7,9 @@ import CinemaPlayer from "@/components/originals/CinemaPlayer";
 import AnimatedBackground from "@/components/originals/AnimatedBackground"; // 1. IMPORT NEW COMPONENT
 import type { Metadata } from "next";
 import CastRoll from "@/components/originals/CastRoll"; // <--- NEW COMPONENT
+import ProductionGallery from "@/components/originals/ProductionGallery";
+
+
 // DYNAMIC METADATA
 export async function generateMetadata({ 
   params 
@@ -92,8 +95,11 @@ export default async function PlayPage({
             title={play.title} 
           />
           
-          {/* FOOTER */}
+          {/* CREDITS & METADATA (THE PEOPLE & THEMES) */}
           <div className="w-full mt-24 grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-white/10 pt-12">
+            {/* Technical Details */}
+             {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16"> */}
+             
              <div className="flex flex-col gap-4">
                 <span className="text-[10px] uppercase tracking-widest text-gold-500">Production</span>
                 <span className="text-2xl font-serif text-white">Aayam Drama Society</span>
@@ -111,10 +117,18 @@ export default async function PlayPage({
                  </div>
                )}
              </div>
+            {/* </div> */}
+          
             {/* CAST ROLL */}
             <CastRoll credits={play.credits || []}  />
           </div>
-
+          {/* 3. THE SCATTERED MEMORY ARCHIVE (The Post-Show Nostalgia) */}
+          {/* Moved to the very end, as requested */}
+          {play.gallery_urls && play.gallery_urls.length > 0 && (
+             <div className="w-full mt-32 border-t border-white/5 pt-12">
+                <ProductionGallery images={play.gallery_urls} />
+             </div>
+          )}
         </div>
         <PrismMenu />
       </ClientWrapper>
